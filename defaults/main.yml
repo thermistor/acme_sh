@@ -1,2 +1,6 @@
 ---
-# defaults file for thermistor-acme
+acme_user: letsencrypt
+acme_git_version: master
+acme_user_dir: /var/lib/acme
+acme_data_dir: /var/lib/acme/.acme.sh
+acme_autoupgrade: True

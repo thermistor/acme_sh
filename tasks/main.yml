@@ -1,2 +1,54 @@
 ---
-# tasks file for thermistor-acme
+
+- name: Install git dependency
+  package:
+    update_cache: True
+    name: git
+    state: latest
+
+- name: Create user to run acme.sh
+  user:
+    name: "{{ acme_user }}"
+    home: "{{ acme_user_dir }}"
+    system: True
+    shell: /bin/bash
+    state: present
+
+- name: Set permissions on acme user home dir
+  file:
+    path: "{{ acme_user_dir }}"
+    mode: 0700
+
+- name: Clone acme.sh repository
+  git:
+    repo: https://github.com/Neilpang/acme.sh.git
+    dest: /usr/local/src/acme.sh
+    version: "{{ acme_git_version }}"
+  register: git
+
+- name: Allow acme.sh user to restart nginx
+  template:
+    src: letsencrypt_restart_nginx.j2
+    dest: /etc/sudoers.d/letsencrypt_restart_nginx
+
+- name : Install acme.sh
+  command: >-
+    ./acme.sh --install
+  args:
+    chdir: /usr/local/src/acme.sh
+    creates: "~/.acme.sh/acme.sh"
+  become_user: "{{ acme_user }}"
+
+- name: Enable acme.sh auto-upgrade
+  lineinfile:
+    path: "{{ acme_data_dir }}/account.conf"
+    regexp: "AUTO_UPGRADE="
+    line: 'AUTO_UPGRADE="1"'
+  when: acme_autoupgrade
+
+- name: Disable acme.sh auto-upgrade
+  lineinfile:
+    path: "{{ acme_data_dir }}/account.conf"
+    regexp: "AUTO_UPGRADE="
+    line: '#AUTO_UPGRADE="1"'
+  when: not acme_autoupgrade
