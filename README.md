@@ -1,4 +1,4 @@
-# acme
+# acme_sh
 
 Setup acme.sh via ansible to generate letsencrypt.org certs.
 
@@ -8,8 +8,8 @@ Usage:
 
     - hosts: servers
       roles:
-        - role: thermistor.acme
-          domains: ['example.com', 'www.example.com']
+        - role: thermistor.acme_sh
+          acme_sh_domains: ['example.com', 'www.example.com']
 
 ## License
 
