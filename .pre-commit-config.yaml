@@ -1,0 +1,7 @@
+- repo: https://github.com/ansible/ansible-lint.git
+  sha: v4.0.1
+  hooks:
+    - id: ansible-lint
+      files: \.(yaml|yml)$
+      args:
+        - --force-color
