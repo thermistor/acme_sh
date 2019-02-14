@@ -1,0 +1,55 @@
+---
+
+- name: Check if cert has been created
+  stat:
+    path: "{{ acme_sh_dir }}/{{ acme_sh_first_subject }}/{{ acme_sh_first_subject }}.cer"
+  register: cert
+
+- name: Issue acme.sh certs via dns
+  command: >-
+    ./acme.sh --issue {{ subject_list }} -k {{ acme_sh_keylength }}
+      --dns {{ acme_sh_dns_provider }} --dnssleep {{ acme_sh_dns_sleep }}
+  args:
+    chdir: "{{ acme_sh_dir }}"
+  vars:
+    subject_list: -d {{ acme_sh_subject_names | join(" -d ") }}
+  environment: "{{ acme_sh_dns_api_keys }}"
+  become: yes
+  become_user: "{{ acme_sh_user }}"
+  register: certs
+  when: not cert.stat.exists
+
+- name: Can we use certs.changed?
+  debug:
+    msg: Changed? {{ certs.changed }}
+
+- name: Ensure public cert dir exists with correct permissions
+  file:
+    path: "{{ acme_sh_certs_public_dir }}"
+    state: directory
+    owner: root
+    group: "{{ acme_sh_user }}"
+    mode: 0775
+
+- name: Ensure private cert dir exists with correct permissions
+  file:
+    path: "{{ acme_sh_certs_private_dir }}"
+    state: directory
+    owner: root
+    group: "{{ acme_sh_user }}"
+    mode: 0770
+
+- name: Install certs
+  command: >-
+    ./acme.sh --install-cert -d {{ acme_sh_first_subject }}
+      --key-file {{ acme_sh_cert_key_file }}
+      --fullchain-file {{ acme_sh_cert_fullchain_file }}
+      --reloadcmd "{{ acme_sh_reload_cmd }}" --debug
+  args:
+    chdir: "{{ acme_sh_dir }}"
+    creates: "{{ acme_sh_cert_fullchain_file }}"
+  become: yes
+  become_user: "{{ acme_sh_user }}"
+  when: certs.changed
+  tags:
+    - acme_sh_cert_install

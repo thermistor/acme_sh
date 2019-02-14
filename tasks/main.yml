@@ -4,6 +4,6 @@
   tags:
     - acme_sh_install
 
-# - include: manage.yml
-#   tags:
-#     - acme_sh_manage
+- include: manage.yml
+  tags:
+    - acme_sh_manage

@@ -2,5 +2,23 @@
 acme_sh_user: letsencrypt
 acme_sh_git_version: master
 acme_sh_user_dir: /var/lib/acme
-acme_sh_data_dir: /var/lib/acme/.acme.sh
+acme_sh_dir: /var/lib/acme/.acme.sh
+
 acme_sh_autoupgrade: True
+acme_sh_keylength: 4096
+acme_sh_dns_sleep: 120
+
+acme_sh_subject_names:
+  - example.com
+  - www.example.com
+acme_sh_first_subject: "{{ acme_sh_subject_names | first }}"
+acme_sh_dns_provider:
+acme_sh_dns_api_keys: {}
+
+acme_sh_certs_public_dir: /etc/nginx/certs
+acme_sh_certs_private_dir: /etc/nginx/private
+
+acme_sh_cert_fullchain_file: "{{ acme_sh_certs_public_dir }}/{{ acme_sh_first_subject }}.cer"
+acme_sh_cert_key_file: "{{ acme_sh_certs_private_dir }}/{{ acme_sh_first_subject }}.key"
+
+acme_sh_reload_cmd: /bin/systemctl reload nginx

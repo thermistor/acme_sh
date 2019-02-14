@@ -42,14 +42,14 @@
 
 - name: Enable acme.sh auto-upgrade
   lineinfile:
-    path: "{{ acme_sh_data_dir }}/account.conf"
+    path: "{{ acme_sh_dir }}/account.conf"
     regexp: "AUTO_UPGRADE="
     line: 'AUTO_UPGRADE="1"'
   when: acme_sh_autoupgrade
 
 - name: Disable acme.sh auto-upgrade
   lineinfile:
-    path: "{{ acme_sh_data_dir }}/account.conf"
+    path: "{{ acme_sh_dir }}/account.conf"
     regexp: "AUTO_UPGRADE="
     line: '#AUTO_UPGRADE="1"'
   when: not acme_sh_autoupgrade
