@@ -1,3 +1,5 @@
+![Current tag](https://img.shields.io/github/tag/thermistor/acme_sh.svg)
+
 # acme_sh
 
 Setup acme.sh in dns api mode via ansible to generate letsencrypt.org certs.
