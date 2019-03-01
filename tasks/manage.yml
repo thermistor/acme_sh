@@ -19,7 +19,7 @@
   register: certs
   when: not cert.stat.exists
 
-- name: Can we use certs.changed?
+- name: Have certs.changed?
   debug:
     msg: Changed? {{ certs.changed }}
 
