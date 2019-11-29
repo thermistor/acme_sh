@@ -1,0 +1,10 @@
+{{ acme_sh_log_dir }}/*.log {
+  daily
+  missingok
+  rotate {{ acme_sh_logrotate_rotations }}
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+  create 0644 {{ acme_sh_user }} {{ acme_sh_group }}
+}

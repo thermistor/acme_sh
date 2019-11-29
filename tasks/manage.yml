@@ -13,7 +13,7 @@
     chdir: "{{ acme_sh_dir }}"
   vars:
     subject_list: -d {{ acme_sh_subject_names | join(" -d ") }}
-  environment: "{{ acme_sh_dns_api_keys }}"
+  environment: "{{ acme_sh_env }}"
   become: yes
   become_user: "{{ acme_sh_user }}"
   register: certs

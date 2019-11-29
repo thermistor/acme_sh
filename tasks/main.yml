@@ -4,6 +4,16 @@
   tags:
     - acme_sh_install
 
+- include: logging.yml
+  tags:
+    - acme_sh_logging
+  when: acme_sh_logging
+
+- include: notify.yml
+  tags:
+    - acme_sh_notify
+  when: acme_sh_notify
+
 - include: manage.yml
   tags:
     - acme_sh_manage

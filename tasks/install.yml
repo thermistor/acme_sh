@@ -36,7 +36,7 @@
     ./acme.sh --install
   args:
     chdir: /usr/local/src/acme.sh
-    creates: "~/.acme.sh/acme.sh"
+    creates: "{{ acme_sh_dir }}/acme.sh"
   become: yes
   become_user: "{{ acme_sh_user }}"
 
@@ -44,12 +44,12 @@
   lineinfile:
     path: "{{ acme_sh_dir }}/account.conf"
     regexp: "AUTO_UPGRADE="
-    line: 'AUTO_UPGRADE="1"'
+    line: "AUTO_UPGRADE='1'"
   when: acme_sh_autoupgrade
 
 - name: Disable acme.sh auto-upgrade
   lineinfile:
     path: "{{ acme_sh_dir }}/account.conf"
     regexp: "AUTO_UPGRADE="
-    line: '#AUTO_UPGRADE="1"'
+    line: "AUTO_UPGRADE='0'"
   when: not acme_sh_autoupgrade

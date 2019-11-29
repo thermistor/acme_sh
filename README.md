@@ -10,9 +10,11 @@ A lot of defaults assume using nginx.
 
 ## Vars
 
-Can tune a few parameters, here are the defaults:
+Here are some defaults that control behavior:
 
     acme_sh_autoupgrade: True
+    acme_sh_notify: False
+    acme_sh_logging: False
     acme_sh_keylength: 4096
     acme_sh_dns_sleep: 120
 
@@ -33,9 +35,44 @@ Usage:
             - example.com
             - www.example.com
           acme_sh_dns_provider: dns_aws
-          acme_sh_dns_api_keys:
+          acme_sh_env:
             AWS_ACCESS_KEY_ID: "{{ your_vault_aws_access_key_id }}"
             AWS_SECRET_ACCESS_KEY: "{{ your_vault_aws_secret_access_key }}"
+
+here is the same example but with logging added:
+
+    - hosts: servers
+      roles:
+        - role: thermistor.acme_sh
+          acme_sh_logging: True
+          acme_sh_subject_names:
+            - example.com
+            - www.example.com
+          acme_sh_dns_provider: dns_aws
+          acme_sh_env:
+            AWS_ACCESS_KEY_ID: "{{ your_vault_aws_access_key_id }}"
+            AWS_SECRET_ACCESS_KEY: "{{ your_vault_aws_secret_access_key }}"
+
+and with mailgun notifications:
+
+    - hosts: servers
+      roles:
+        - role: thermistor.acme_sh
+          acme_sh_notify: True
+          acme_sh_notify_hooks:
+            - mailgun
+          acme_sh_subject_names:
+            - example.com
+            - www.example.com
+          acme_sh_dns_provider: dns_aws
+          acme_sh_env:
+            AWS_ACCESS_KEY_ID: "{{ your_vault_aws_access_key_id }}"
+            AWS_SECRET_ACCESS_KEY: "{{ your_vault_aws_secret_access_key }}"
+            MAILGUN_API_KEY: "{{ your_vault_mailgun_api_key }}"
+            MAILGUN_API_DOMAIN: "{{ your_vault_mailgun_domain }}"
+            MAILGUN_FROM: "{{ your_vault_mailgun_from }}"
+            MAILGUN_TO: "{{ your_vault_mailgun_to }}"
+
 
 ## License
 

@@ -1,0 +1,34 @@
+---
+- name: Ensure acme.sh log directory exists
+  file:
+    path: "{{ acme_sh_log_dir }}"
+    owner: "{{ acme_sh_user }}"
+    group: "{{ acme_sh_group }}"
+    mode: 0755
+    state: directory
+
+- name: Install logrotate config for acme.sh log
+  template:
+    src: acme_sh_logrotate.j2
+    dest: /etc/logrotate.d/acme_sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: See if logging has been set
+  lineinfile:
+    path: "{{ acme_sh_dir }}/account.conf"
+    regexp: "^LOG_FILE='{{ acme_sh_log_file }}'"
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: logging_set
+
+- name : Set logging for acme.sh
+  command: >-
+    ./acme.sh --upgrade --log {{ acme_sh_log_file }} --log-level {{ acme_sh_log_level }}
+  args:
+    chdir: "{{ acme_sh_dir }}"
+  become: yes
+  become_user: "{{ acme_sh_user }}"
+  when: not logging_set.found
