@@ -24,7 +24,7 @@
   changed_when: false
   register: logging_set
 
-- name : Set logging for acme.sh
+- name: Set logging for acme.sh
   command: >-
     ./acme.sh --upgrade --log {{ acme_sh_log_file }} --log-level {{ acme_sh_log_level }}
   args:

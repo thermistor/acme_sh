@@ -1,5 +1,4 @@
 ---
-
 - name: Check if cert has been created
   stat:
     path: "{{ acme_sh_dir }}/{{ acme_sh_first_subject }}/{{ acme_sh_first_subject }}.cer"

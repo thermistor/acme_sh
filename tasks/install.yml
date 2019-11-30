@@ -1,5 +1,4 @@
 ---
-
 - name: Install git dependency
   package:
     update_cache: True
@@ -31,7 +30,7 @@
     src: letsencrypt_restart_nginx.j2
     dest: /etc/sudoers.d/letsencrypt_restart_nginx
 
-- name : Install acme.sh
+- name: Install acme.sh
   command: >-
     ./acme.sh --install
   args:
