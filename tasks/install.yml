@@ -29,6 +29,9 @@
   template:
     src: letsencrypt_restart_nginx.j2
     dest: /etc/sudoers.d/letsencrypt_restart_nginx
+    owner: root
+    group: root
+    mode: 0440
 
 - name: Install acme.sh
   command: >-
