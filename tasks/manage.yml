@@ -43,6 +43,7 @@
     ./acme.sh --install-cert -d {{ acme_sh_first_subject }}
       --key-file {{ acme_sh_cert_key_file }}
       --fullchain-file {{ acme_sh_cert_fullchain_file }}
+      --ca-file {{ acme_sh_cert_ca_file }}
       --reloadcmd "{{ acme_sh_reload_cmd if cert.stat.exists else acme_sh_restart_cmd }}"
       --debug
   args:

@@ -32,6 +32,7 @@ acme_sh_certs_public_dir: /etc/nginx/certs
 acme_sh_certs_private_dir: /etc/nginx/private
 
 acme_sh_cert_fullchain_file: "{{ acme_sh_certs_public_dir }}/{{ acme_sh_first_subject }}.cer"
+acme_sh_cert_ca_file: "{{ acme_sh_certs_public_dir }}/ca.cer"
 acme_sh_cert_key_file: "{{ acme_sh_certs_private_dir }}/{{ acme_sh_first_subject }}.key"
 
 acme_sh_restart_cmd: sudo /bin/systemctl restart nginx

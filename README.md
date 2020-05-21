@@ -73,6 +73,10 @@ and with mailgun notifications:
             MAILGUN_FROM: "{{ your_vault_mailgun_from }}"
             MAILGUN_TO: "{{ your_vault_mailgun_to }}"
 
+## What happens under the hood
+
+If you generate a cert for example.com, during the install step this role will copy the `/var/lib/acme/.acme.sh/example.com/fullchain.cer` and install it as `/etc/nginx/certs/example.com.cer`. Note that it is installing the **fullchain**
+ cert and renaming it, this is so that you can install multiple fullchain certs for different domains if necessary.
 
 ## License
 
