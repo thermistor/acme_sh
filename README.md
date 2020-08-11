@@ -78,6 +78,12 @@ and with mailgun notifications:
 If you generate a cert for example.com, during the install step this role will copy the `/var/lib/acme/.acme.sh/example.com/fullchain.cer` and install it as `/etc/nginx/certs/example.com.cer`. Note that it is installing the **fullchain**
  cert and renaming it, this is so that you can install multiple fullchain certs for different domains if necessary.
 
+## Troubleshooting
+
+If there are cert misconfiguration issues sometimes you can get into a wedged state where certs are not being reinstalled, you can force the certs to be reinstalled with:
+
+    ansible-playbook -i inventory playbook.yml -e "acme_sh_force_install=True" --tags acme_sh_cert_install
+
 ## License
 
 MIT

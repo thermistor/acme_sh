@@ -44,13 +44,12 @@
       --key-file {{ acme_sh_cert_key_file }}
       --fullchain-file {{ acme_sh_cert_fullchain_file }}
       --ca-file {{ acme_sh_cert_ca_file }}
-      --reloadcmd "{{ acme_sh_reload_cmd if cert.stat.exists else acme_sh_restart_cmd }}"
+      --reloadcmd "{{ acme_sh_reload_cmd if (cert is defined and cert.stat.exists) else acme_sh_restart_cmd }}"
       --debug
   args:
     chdir: "{{ acme_sh_dir }}"
-    creates: "{{ acme_sh_cert_fullchain_file }}"
   become: yes
   become_user: "{{ acme_sh_user }}"
-  when: certs.changed
+  when: (certs is defined and certs.changed) or acme_sh_force_install
   tags:
     - acme_sh_cert_install
