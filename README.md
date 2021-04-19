@@ -2,7 +2,7 @@
 
 # acme_sh
 
-Setup acme.sh in dns api mode via ansible to generate letsencrypt.org certs.
+Setup [acme.sh](https://github.com/acmesh-official/acme.sh) in dns api mode via ansible to generate letsencrypt.org certs.
 
 ## Dependencies
 
