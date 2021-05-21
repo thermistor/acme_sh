@@ -1,5 +1,5 @@
 # {{ ansible_managed }}
 Defaults !requiretty
-Cmnd_Alias ACME_NGINX_RELOAD = /bin/systemctl reload nginx
-Cmnd_Alias ACME_NGINX_RESTART = /bin/systemctl restart nginx
+Cmnd_Alias ACME_NGINX_RELOAD = {{ acme_sh_reload_cmd }}
+Cmnd_Alias ACME_NGINX_RESTART = {{ acme_sh_restart_cmd }}
 {{ acme_sh_user }} ALL=(root) NOPASSWD: ACME_NGINX_RELOAD, ACME_NGINX_RESTART
