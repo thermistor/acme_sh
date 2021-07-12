@@ -20,7 +20,7 @@ Here are some defaults that control behavior:
 
     acme_sh_certs_public_dir: /etc/nginx/certs
     acme_sh_certs_private_dir: /etc/nginx/private
-    acme_sh_reload_cmd: sudo /bin/systemctl reload nginx
+    acme_sh_reload_cmd: /bin/systemctl reload nginx
 
 ## Example Playbook
 
