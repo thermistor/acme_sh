@@ -6,7 +6,7 @@
 
 - name: Issue acme.sh certs via dns
   command: >-
-    ./acme.sh --issue {{ subject_list }} -k {{ acme_sh_keylength }}
+    ./acme.sh --issue {{ subject_list }} -k {{ acme_sh_keylength }} --server {{ acme_sh_server }}
       --dns {{ acme_sh_dns_provider }} --dnssleep {{ acme_sh_dns_sleep }}
   args:
     chdir: "{{ acme_sh_dir }}"

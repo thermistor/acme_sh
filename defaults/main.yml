@@ -6,6 +6,7 @@ acme_sh_user_dir: /var/lib/acme
 acme_sh_dir: /var/lib/acme/.acme.sh
 
 acme_sh_autoupgrade: True
+acme_sh_server: letsencrypt
 
 acme_sh_notify: False
 acme_sh_notify_level: 2

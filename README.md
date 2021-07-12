@@ -13,6 +13,7 @@ A lot of defaults assume using nginx.
 Here are some defaults that control behavior:
 
     acme_sh_autoupgrade: True
+    acme_sh_server: letsencrypt
     acme_sh_notify: False
     acme_sh_logging: False
     acme_sh_keylength: 4096
