@@ -1,11 +1,13 @@
 galaxy_info:
+  role_name: acme_sh
+  namespace: thermistor
   author: Weston Triemstra
   description: Configure acme.sh
   company: Netsign
 
   license: MIT
 
-  min_ansible_version: 2.4
+  min_ansible_version: '2.16'
 
   platforms:
     - name: Ubuntu

@@ -5,15 +5,15 @@ acme_sh_git_version: master
 acme_sh_user_dir: /var/lib/acme
 acme_sh_dir: /var/lib/acme/.acme.sh
 
-acme_sh_autoupgrade: True
+acme_sh_autoupgrade: true
 acme_sh_server: letsencrypt
 
-acme_sh_notify: False
+acme_sh_notify: false
 acme_sh_notify_level: 2
 acme_sh_notify_hooks:
   - mail
 
-acme_sh_logging: False
+acme_sh_logging: false
 acme_sh_log_level: 1
 acme_sh_logrotate_rotations: 50
 acme_sh_log_dir: /var/log/acme.sh
@@ -39,4 +39,4 @@ acme_sh_cert_key_file: "{{ acme_sh_certs_private_dir }}/{{ acme_sh_first_subject
 acme_sh_restart_cmd: /bin/systemctl restart nginx
 acme_sh_reload_cmd: /bin/systemctl reload nginx
 
-acme_sh_force_install: False
+acme_sh_force_install: false

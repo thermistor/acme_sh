@@ -1,21 +1,21 @@
 ---
 - name: See if notify has been set
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ acme_sh_dir }}/account.conf"
     regexp: "^NOTIFY_HOOK='{{ acme_sh_notify_hooks | join(',') }}'"
     state: absent
-  check_mode: yes
+  check_mode: true
   changed_when: false
   register: notify_set
 
 - name: Set notify for acme.sh
-  command: >-
+  ansible.builtin.command: >-
     ./acme.sh --set-notify --notify-level {{ acme_sh_notify_level }} {{ notify_hook_list }}
   args:
     chdir: "{{ acme_sh_dir }}"
   vars:
     notify_hook_list: --notify-hook {{ acme_sh_notify_hooks | join(" --notify-hook ") }}
   environment: "{{ acme_sh_env }}"
-  become: yes
+  become: true
   become_user: "{{ acme_sh_user }}"
   when: not notify_set.found
