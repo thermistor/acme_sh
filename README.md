@@ -12,10 +12,10 @@ A lot of defaults assume using nginx.
 
 Here are some defaults that control behavior:
 
-    acme_sh_autoupgrade: True
+    acme_sh_autoupgrade: true
     acme_sh_server: letsencrypt
-    acme_sh_notify: False
-    acme_sh_logging: False
+    acme_sh_notify: false
+    acme_sh_logging: false
     acme_sh_keylength: 4096
     acme_sh_dns_sleep: 120
 
