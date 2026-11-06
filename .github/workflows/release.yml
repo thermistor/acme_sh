@@ -1,0 +1,21 @@
+name: release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  galaxy:
+    name: Import into Ansible Galaxy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install ansible-core
+        run: pip install ansible-core
+      - name: Import the role into Ansible Galaxy
+        run: >-
+          ansible-galaxy role import
+          --token "${{ secrets.GALAXY_API_KEY }}"
+          ${{ github.repository_owner }} ${{ github.event.repository.name }}
