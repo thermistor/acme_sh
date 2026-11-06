@@ -15,6 +15,7 @@
   environment: "{{ acme_sh_env }}"
   become: true
   become_user: "{{ acme_sh_user }}"
+  changed_when: true
   register: certs
   when: not cert.stat.exists
 
@@ -50,6 +51,7 @@
     chdir: "{{ acme_sh_dir }}"
   become: true
   become_user: "{{ acme_sh_user }}"
+  changed_when: true
   when: (certs is defined and certs.changed) or acme_sh_force_install
   tags:
     - acme_sh_cert_install

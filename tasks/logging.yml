@@ -31,4 +31,5 @@
     chdir: "{{ acme_sh_dir }}"
   become: true
   become_user: "{{ acme_sh_user }}"
+  changed_when: true
   when: not logging_set.found

@@ -18,4 +18,5 @@
   environment: "{{ acme_sh_env }}"
   become: true
   become_user: "{{ acme_sh_user }}"
+  changed_when: true
   when: not notify_set.found
