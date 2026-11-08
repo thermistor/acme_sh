@@ -4,10 +4,36 @@
     path: "{{ acme_sh_dir }}/{{ acme_sh_first_subject }}/{{ acme_sh_first_subject }}.cer"
   register: cert
 
+- name: Read subject alternative names from existing cert
+  ansible.builtin.command: >-
+    openssl x509 -in {{ acme_sh_dir }}/{{ acme_sh_first_subject }}/{{ acme_sh_first_subject }}.cer
+      -noout -ext subjectAltName
+  become: true
+  become_user: "{{ acme_sh_user }}"
+  changed_when: false
+  check_mode: false
+  register: cert_sans
+  when: cert.stat.exists
+
+- name: Compare existing cert names with acme_sh_subject_names
+  ansible.builtin.set_fact:
+    acme_sh_cert_names: "{{ (cert_sans.stdout | default('')) | regex_findall('DNS:([^,\\s]+)') | map('lower') | unique | sort }}"
+    acme_sh_wanted_names: "{{ acme_sh_subject_names | map('lower') | unique | sort }}"
+
+- name: Determine if subject names changed
+  ansible.builtin.set_fact:
+    acme_sh_sans_changed: "{{ cert.stat.exists and acme_sh_cert_names != acme_sh_wanted_names }}"
+
+- name: Report subject name change
+  ansible.builtin.debug:
+    msg: "Subject names changed, reissuing. Cert has {{ acme_sh_cert_names }}, wanted {{ acme_sh_wanted_names }}"
+  when: acme_sh_sans_changed
+
 - name: Issue acme.sh certs via dns
   ansible.builtin.command: >-
     ./acme.sh --issue {{ subject_list }} -k {{ acme_sh_keylength }} --server {{ acme_sh_server }}
       --dns {{ acme_sh_dns_provider }} --dnssleep {{ acme_sh_dns_sleep }}
+      {{ '--force' if (acme_sh_force_issue or acme_sh_sans_changed) else '' }}
   args:
     chdir: "{{ acme_sh_dir }}"
   vars:
@@ -17,7 +43,7 @@
   become_user: "{{ acme_sh_user }}"
   changed_when: true
   register: certs
-  when: not cert.stat.exists
+  when: not cert.stat.exists or acme_sh_force_issue or acme_sh_sans_changed
 
 - name: Have certs.changed?
   ansible.builtin.debug:

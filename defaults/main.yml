@@ -40,3 +40,4 @@ acme_sh_restart_cmd: /bin/systemctl restart nginx
 acme_sh_reload_cmd: /bin/systemctl reload nginx
 
 acme_sh_force_install: false
+acme_sh_force_issue: false

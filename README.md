@@ -85,6 +85,14 @@ If there are cert misconfiguration issues sometimes you can get into a wedged st
 
     ansible-playbook -i inventory playbook.yml -e "acme_sh_force_install=True" --tags acme_sh_cert_install
 
+If you change `acme_sh_subject_names` (e.g. adding or removing `www`), the role compares the subject alternative names on the existing cert with `acme_sh_subject_names` and automatically reissues, reinstalls and reloads nginx when the sets differ (order and case are ignored). Once reissued the sets match, so later runs do nothing. Note that changing the *first* name issues a separate cert with new file names; remove the old one with `acme.sh --remove -d old.example.com`.
+
+To force a reissue for any other reason (e.g. a key length change), run:
+
+    ansible-playbook -i inventory playbook.yml -e "acme_sh_force_issue=True" --tags acme_sh_manage
+
+Only pass this on the command line for a one-off run. Leaving it set in your vars reissues the cert on every run and will hit Let's Encrypt rate limits (5 duplicate certs per week).
+
 ## License
 
 MIT
